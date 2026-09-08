@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ficha digital de pedidos para confeitaria">
+  <title>Ficha Digital de Pedidos | Confeitaria JJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon"><img src="./img/confeitariajj.png" alt="Logo"></div>
+      <div>
+        <strong>Confeitaria JJ</strong>
+        <span>Ficha Digital de Pedidos</span>
+      </div>
+    </div>
+    <button class="btn btn-light" id="btnNovoTopo">＋ Novo pedido</button>
+  </header>
+
+  <main class="container">
+    <section class="dashboard">
+      <div class="stat-card"><span>Pedidos</span><strong id="totalPedidos">0</strong><small>salvos no navegador</small></div>
+      <div class="stat-card"><span>Faturamento</span><strong id="faturamento">R$ 0,00</strong><small>total dos pedidos</small></div>
+      <div class="stat-card"><span>Ticket médio</span><strong id="ticketMedio">R$ 0,00</strong><small>por pedido</small></div>
+      <div class="stat-card"><span>Último pedido</span><strong id="ultimoPedido">—</strong><small>número do pedido</small></div>
+    </section>
+
+    <div class="layout">
+      <section class="card form-card">
+        <div class="section-title">
+          <div>
+            <span class="eyebrow">NOVO PEDIDO</span>
+            <h1>Ficha de encomenda</h1>
+          </div>
+          <span class="order-badge" id="numeroPedido">PED-0001</span>
+        </div>
+
+        <form id="pedidoForm">
+          <div class="form-section">
+            <h2>👤 Dados do cliente</h2>
+            <div class="grid grid-3">
+              <label>Nome completo<input id="clienteNome" required placeholder="Nome do cliente"></label>
+              <label>Telefone / WhatsApp<input id="clienteTelefone" required placeholder="(00) 00000-0000"></label>
+              <label>E-mail<input id="clienteEmail" type="email" placeholder="cliente@email.com"></label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-row">
+              <h2>🧁 Produtos / serviços</h2>
+              <button type="button" class="btn btn-primary btn-small" id="btnAdicionarProduto">＋ Adicionar item</button>
+            </div>
+            <div id="produtos"></div>
+          </div>
+
+          <div class="form-section">
+            <h2>📅 Entrega / retirada</h2>
+            <div class="grid grid-3">
+              <label>Data<input id="dataEntrega" type="date" required></label>
+              <label>Horário<input id="horaEntrega" type="time" required></label>
+              <label>Tipo
+                <select id="tipoEntrega">
+                  <option>Retirada na loja</option>
+                  <option>Entrega</option>
+                  <option>Consumo no local</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h2>💳 Pagamento</h2>
+            <div class="grid grid-3">
+              <label>Forma de pagamento
+                <select id="pagamento">
+                  <option>PIX</option>
+                  <option>Dinheiro</option>
+                  <option>Cartão de débito</option>
+                  <option>Cartão de crédito</option>
+                  <option>Transferência</option>
+                  <option>A combinar</option>
+                </select>
+              </label>
+              <label>Desconto (R$)<input id="desconto" type="number" min="0" step="0.01" value="0"></label>
+              <label>Observações<textarea id="observacoes" rows="2" placeholder="Tema, cores, mensagem no bolo, endereço, detalhes..."></textarea></label>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="button" class="btn btn-secondary" id="btnLimpar">Limpar</button>
+            <button type="button" class="btn btn-outline" id="btnImprimir">🖨️ Imprimir ficha</button>
+            <button type="button" class="btn btn-outline" id="btnPDF">📄 Gerar PDF</button>
+            <button type="button" class="btn btn-whatsapp" id="btnWhatsApp">📱 Enviar WhatsApp</button>
+            <button type="submit" class="btn btn-primary">💾 Salvar pedido</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="card summary-card">
+        <div class="section-title compact">
+          <div><span class="eyebrow">RESUMO</span><h2>Pedido <span id="resumoNumero">PED-0001</span></h2></div>
+        </div>
+        <div id="resumoItens" class="summary-items"><p class="empty">Adicione produtos para visualizar o resumo.</p></div>
+        <div class="totals">
+          <div><span>Subtotal</span><strong id="subtotal">R$ 0,00</strong></div>
+          <div><span>Desconto</span><strong id="resumoDesconto">- R$ 0,00</strong></div>
+          <div class="grand"><span>Total</span><strong id="total">R$ 0,00</strong></div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="card history-card">
+      <div class="section-row">
+        <div><span class="eyebrow">HISTÓRICO</span><h2>Pedidos anteriores</h2></div>
+        <div class="history-tools">
+          <input id="buscaPedidos" placeholder="🔎 Buscar cliente ou pedido...">
+          <button class="btn btn-danger btn-small" id="btnApagarTodos">Apagar histórico</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pedido</th><th>Cliente</th><th>Entrega</th><th>Pagamento</th><th>Total</th><th>Ações</th></tr></thead>
+          <tbody id="tabelaPedidos"><tr><td colspan="6" class="empty">Nenhum pedido salvo.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
